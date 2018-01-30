@@ -12,24 +12,28 @@ public class HelloMavenTest extends FunctionalTestCase {
 
 	@Rule
 	public DynamicPort myPort = new DynamicPort("http.port");
-	
-    @Test
-    public void mavenFlowReturnsHelloMaven() throws Exception {
-    	System.out.println("\n\n Testcase-1: Dynamic Http Port --------->" +myPort.getNumber() + "\n\n");
-        runFlowAndExpect("mavenFlow", "Hello Maven");
-    }
-    
-    @Test
-    public void retrieveFlightsAddsAppropriateHeader() throws Exception {
-    	System.out.println("\n\n Testcase-2: Dynamic Http Port --------->" +myPort.getNumber() + "\n\n");
-      MuleEvent event = runFlow("retrieveFlights");
-      String contentType = event.getMessage().getOutboundProperty("Content-Type");
-      assertEquals("application/json", contentType);
-    }
 
-    @Override
-    protected String getConfigFile() {
-        return "maven-project.xml";
-    }
+	@Test
+	public void mavenFlowReturnsHelloMaven() throws Exception {
+		System.out.println("\n\n Testcase-1: Dynamic Http Port --------->" + myPort.getNumber() + "\n\n");
+		runFlowAndExpect("mavenFlow", "Hello Maven");
+	}
+
+	@Test
+	public void retrieveFlightsAddsAppropriateHeader() throws Exception {
+		System.out.println("\n\n Testcase-2: Dynamic Http Port --------->" + myPort.getNumber() + "\n\n");
+		MuleEvent event = runFlow("retrieveFlights");
+		String contentType = event.getMessage().getOutboundProperty("Content-Type");
+		assertEquals("application/json", contentType);
+	}
+
+	@Override
+	protected String[] getConfigFiles() {
+		String[] files = { "maven-project.xml", "global.xml" };
+		return files;
+	}
+	// protected String getConfigFile() {
+	// return "maven-project.xml";
+	// }
 
 }
